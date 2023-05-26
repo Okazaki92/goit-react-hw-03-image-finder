@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { nanoid } from "nanoid";
 import { ImageGalleryItem } from "../ImageGalleryItem/ImageGalleryItem";
+import { Modal } from "../Modal/Modal";
 
 interface Image {
   id: string;
@@ -10,9 +11,22 @@ interface Image {
 interface ImageGalleryProps {
   images: Image[];
 }
+interface ImageGalleryState {
+  modalIsOpen: boolean;
+  largeImageURL: string;
+}
+export class ImageGallery extends Component<
+  ImageGalleryProps,
+  {},
+  ImageGalleryState
+> {
+  state = {
+    modalIsOpen: false,
+    largeImageURL: "",
+  };
 
-export class ImageGallery extends Component<ImageGalleryProps> {
   render() {
+    const { largeImageURL, modalIsOpen } = this.state;
     return (
       <>
         <ul className="gallery">
@@ -26,6 +40,7 @@ export class ImageGallery extends Component<ImageGalleryProps> {
             );
           })}
         </ul>
+        <Modal toggler={modalIsOpen} largeImageURL={largeImageURL} />
       </>
     );
   }

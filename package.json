@@ -11,12 +11,16 @@
     "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
     "axios": "^1.4.0",
+    "basiclightbox": "^5.0.4",
+    "fslightbox-react": "^1.7.4",
     "nanoid": "^4.0.2",
     "notiflix": "^3.2.6",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-loader-spinner": "^5.3.4",
     "react-scripts": "5.0.1",
+    "simplelightbox": "^2.14.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -45,6 +49,8 @@
     ]
   },
   "devDependencies": {
-    "@types/estree": "^1.0.1"
+    "@types/basiclightbox": "^5.0.1",
+    "@types/estree": "^1.0.1",
+    "@types/fslightbox-react": "^1.7.3"
   }
 }
