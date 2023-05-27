@@ -6,6 +6,8 @@ import { Modal } from "../Modal/Modal";
 interface Image {
   id: string;
   webformatURL: string;
+  largeImageURL: string;
+  tags: string;
 }
 
 interface ImageGalleryProps {
@@ -24,9 +26,14 @@ export class ImageGallery extends Component<
     modalIsOpen: false,
     largeImageURL: "",
   };
+  openModal = (image: Image) => {
+    this.setState({
+      modalIsOpen: true,
+      largeImageURL: image.largeImageURL,
+    });
+    };
 
-  render() {
-    const { largeImageURL, modalIsOpen } = this.state;
+    render() {
     return (
       <>
         <ul className="gallery">
@@ -36,11 +43,11 @@ export class ImageGallery extends Component<
                 key={nanoid()}
                 id={image.id}
                 smallImgURL={image.webformatURL}
+                largeImgURL={image.largeImageURL}
               />
             );
           })}
         </ul>
-        <Modal toggler={modalIsOpen} largeImageURL={largeImageURL} />
       </>
     );
   }

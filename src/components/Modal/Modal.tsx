@@ -1,28 +1,27 @@
 import React, { Component } from "react";
-import FsLightbox from "fslightbox-react";
 
 interface ModalProp {
-  toggler: boolean;
-  largeImageURL: string ;
+  largeImageURL: string;
+  tags: string;
 }
 
 export class Modal extends Component<ModalProp> {
   state = {
-    toggler: false,
+    modalIsOpen: false,
   };
-  handleToggle = () => {
+  toggleModal = () => {
     this.setState({
-      toggler: !this.state.toggler,
+      modalIsOpen: !this.state.modalIsOpen,
     });
   };
   render() {
-    const { toggler } = this.state;
     return (
       <>
-        <FsLightbox
-          toggler={toggler}
-          sources={[<img src={this.props.largeImageURL} alt="" />]}
-        />
+        <div className="overlay">
+          <div className="modal">
+            <img src={this.props.largeImageURL} alt={this.props.tags} />
+          </div>
+        </div>
       </>
     );
   }
