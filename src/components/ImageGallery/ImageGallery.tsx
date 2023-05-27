@@ -31,9 +31,9 @@ export class ImageGallery extends Component<
       modalIsOpen: true,
       largeImageURL: image.largeImageURL,
     });
-    };
+  };
 
-    render() {
+  render() {
     return (
       <>
         <ul className="gallery">

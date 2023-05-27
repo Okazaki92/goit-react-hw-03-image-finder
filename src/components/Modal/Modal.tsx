@@ -3,6 +3,7 @@ import React, { Component } from "react";
 interface ModalProp {
   largeImageURL: string;
   tags: string;
+  onClick: boolean;
 }
 
 export class Modal extends Component<ModalProp> {

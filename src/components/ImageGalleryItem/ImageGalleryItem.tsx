@@ -10,7 +10,7 @@ interface ImageGalleryItemProps {
 export class ImageGalleryItem extends Component<ImageGalleryItemProps> {
   state = {
     largeImageURL: "",
-    modalIsOpen: true,
+    modalIsOpen: false,
   };
   imageOnClick = () => {
     this.setState({
@@ -18,13 +18,20 @@ export class ImageGalleryItem extends Component<ImageGalleryItemProps> {
       modalIsOpen: !this.state.modalIsOpen,
     });
   };
+
   render() {
     return (
       <>
         <li className="gallery-item" onClick={this.imageOnClick}>
           <img src={this.props.smallImgURL} alt={this.props.id} />
         </li>
-        <Modal largeImageURL={this.props.largeImgURL} tags="lol" />
+        {this.state.modalIsOpen && (
+          <Modal
+            onClick={this.state.modalIsOpen}
+            largeImageURL={this.props.largeImgURL}
+            tags={`${this.state.modalIsOpen}`}
+          />
+        )}
       </>
     );
   }
