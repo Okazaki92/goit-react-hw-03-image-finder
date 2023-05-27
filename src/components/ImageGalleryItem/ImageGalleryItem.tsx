@@ -14,6 +14,7 @@ export class ImageGalleryItem extends Component<ImageGalleryItemProps> {
   };
   imageOnClick = () => {
     this.setState({
+      largeImageURL: this.props.largeImgURL,
       modalIsOpen: !this.state.modalIsOpen,
     });
   };

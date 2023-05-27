@@ -3,7 +3,10 @@ import axios, { AxiosResponse } from "axios";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { Loader } from "./Loader/Loader";
+import { Button } from "./Button/Button";
+
 import "./App.css";
+import { log } from "console";
 
 axios.defaults.baseURL = "https://pixabay.com/api/";
 
@@ -14,6 +17,7 @@ interface AppState {
   gallery: Array<object>;
   per_page: number;
   isLoading: boolean;
+  totalImages: number;
 }
 
 export class App extends Component<{}, AppState> {
@@ -24,39 +28,58 @@ export class App extends Component<{}, AppState> {
     gallery: [],
     per_page: 12,
     isLoading: false,
+    totalImages: 0,
   };
 
   async componentDidMount() {
     try {
       this.setState({ isLoading: true });
-      const response: AxiosResponse<{ hits: Array<object> }> = await axios.get(
+      const response: AxiosResponse<{
+        hits: Array<object>;
+        total: number;
+        page: number;
+      }> = await axios.get(
         `?q=${this.state.query}&page=${this.state.page}&key=${this.state.API_KEY}&image_type=photo&orientation=horizontal&${this.state.per_page}`
       );
-      this.setState({ gallery: response.data.hits, isLoading: false });
+      this.setState({
+        gallery: response.data.hits,
+        isLoading: false,
+        totalImages: response.data.total,
+      });
       console.log(response);
     } catch (error) {
       console.log(error);
     }
   }
-  componentDidUpdate(
-    prevProps: Readonly<{}>,
-    prevState: Readonly<AppState>
-  ): void {
+  componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<AppState>) {
     if (this.state.query !== prevState.query) {
       this.componentDidMount();
     }
+    if (this.state.page !== prevState.page) {
+      this.componentDidMount();
+    }
   }
+  handleLoadMore = () => {
+    this.setState((prevState) => {
+      console.log(prevState.page);
+      console.log(this.state.page);
 
+      return { page: prevState.page + 1 };
+    });
+  };
   submitQuery = (query: string) => {
     this.setState({ query: query });
     this.componentDidMount();
   };
   render() {
-    const { gallery, isLoading } = this.state;
+    const { gallery, isLoading, totalImages } = this.state;
     return (
       <div className="container">
         <Searchbar onSubmit={this.submitQuery} />
-        <div>{isLoading ? <Loader /> : <ImageGallery images={gallery} />}</div>
+        {isLoading ? <Loader /> : <ImageGallery images={gallery} />}
+        {totalImages > gallery.length && (
+          <Button onLoadMore={this.handleLoadMore} />
+        )}
       </div>
     );
   }
