@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { nanoid } from "nanoid";
 import { ImageGalleryItem } from "../ImageGalleryItem/ImageGalleryItem";
-import { Modal } from "../Modal/Modal";
 
 interface Image {
   id: string;
