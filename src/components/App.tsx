@@ -90,10 +90,11 @@ export class App extends Component<{}, AppState> {
     return (
       <div className="container">
         <Searchbar onSubmit={this.submitQuery} />
-        {isLoading ? <Loader /> : <ImageGallery images={gallery} />}
+        <ImageGallery images={gallery} />
         {totalImages > gallery.length && (
           <Button onLoadMore={this.handleLoadMore} />
         )}
+        {isLoading && <Loader />}
       </div>
     );
   }
