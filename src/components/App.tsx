@@ -41,14 +41,20 @@ export class App extends Component<{}, AppState> {
   }
 
   loadGallery = () => {
-    this.componentDidMount().then((response: any) => {
-      this.setState({
-        gallery: response.hits,
-        isLoading: false,
-        totalImages: response.total,
+    this.setState(
+      {
         page: 1,
-      });
-    });
+      },
+      () => {
+        this.componentDidMount().then((response: any) => {
+          this.setState({
+            gallery: response.hits,
+            isLoading: false,
+            totalImages: response.total,
+          });
+        });
+      }
+    );
   };
 
   loadMoreGallery = () => {
@@ -62,6 +68,11 @@ export class App extends Component<{}, AppState> {
     });
   };
 
+  handleLoadMore = () => {
+    this.setState((prevState) => {
+      return { page: prevState.page + 1 };
+    });
+  };
   componentDidUpdate(
     prevProps: any,
     prevState: { query: string; page: number }
@@ -73,12 +84,6 @@ export class App extends Component<{}, AppState> {
       this.loadMoreGallery();
     }
   }
-
-  handleLoadMore = () => {
-    this.setState((prevState) => {
-      return { page: this.state.page + 1 };
-    });
-  };
 
   submitQuery = (query: string) => {
     this.setState({ query: query, isLoading: true });
