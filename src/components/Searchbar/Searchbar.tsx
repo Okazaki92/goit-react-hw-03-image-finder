@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Component, FormEvent } from "react";
-
+import styles from "./Searchbar.module.css";
 interface SearchbarProps {
   onSubmit: (query: string) => void;
 }
@@ -21,15 +21,15 @@ export class Searchbar extends Component<SearchbarProps, SearchbarState> {
 
   render() {
     return (
-      <header className="searchbar">
-        <form className="form" onSubmit={this.handleQuerySubmit}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
+      <header className={styles.Searchbar}>
+        <form className={styles.SearchForm} onSubmit={this.handleQuerySubmit}>
+          <button type="submit" className={styles[`SearchForm-button`]}>
+            <span className={styles[`SearchForm-button-label`]}>Search</span>
           </button>
 
           <input
             onInput={this.handleQueryChange}
-            className="input"
+            className={styles[`SearchForm-input`]}
             type="text"
             autoComplete="off"
             autoFocus

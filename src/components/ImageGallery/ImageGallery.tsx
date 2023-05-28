@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { nanoid } from "nanoid";
 import { ImageGalleryItem } from "../ImageGalleryItem/ImageGalleryItem";
+import styles from "./ImageGallery.module.css";
 
 interface Image {
   id: string;
@@ -35,7 +36,7 @@ export class ImageGallery extends Component<
   render() {
     return (
       <>
-        <ul className="gallery">
+        <ul className={styles.ImageGallery}>
           {this.props.images.map((image) => {
             return (
               <ImageGalleryItem
