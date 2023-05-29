@@ -126,7 +126,6 @@ export class App extends Component<{}, AppState> {
 
   componentDidUpdate(prevProps: any, prevState: AppState) {
     if (prevState.query !== this.state.query) {
-      this.setState({ page: 1 });
       this.loadGallery();
     }
     if (this.state.page !== prevState.page) {
