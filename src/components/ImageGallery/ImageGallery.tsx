@@ -7,7 +7,7 @@ interface Image {
   id: string;
   webformatURL: string;
   largeImageURL: string;
-  tags: string;
+  key: string
 }
 
 interface ImageGalleryProps {
@@ -19,7 +19,6 @@ interface ImageGalleryState {
 }
 export class ImageGallery extends Component<
   ImageGalleryProps,
-  {},
   ImageGalleryState
 > {
   state = {

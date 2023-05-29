@@ -8,9 +8,10 @@ interface SearchbarState {
 }
 
 export class Searchbar extends Component<SearchbarProps, SearchbarState> {
-  state: SearchbarState = {
+  state = {
     query: "",
   };
+
   handleQueryChange = (evt: ChangeEvent<HTMLInputElement>) => {
     this.setState({ query: evt.target.value.toLowerCase() });
   };

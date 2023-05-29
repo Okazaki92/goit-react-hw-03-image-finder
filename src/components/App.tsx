@@ -28,62 +28,117 @@ export class App extends Component<{}, AppState> {
     totalImages: 0,
   };
 
-  async componentDidMount() {
+  // async componentDidMount() {
+  //   try {
+  //     const response: AxiosResponse<{ hits: Array<object>; total: number }> =
+  //       await axios.get(
+  //         `?q=${this.state.query}&page=${this.state.page}&key=${this.state.API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+  //       );
+  //     return response.data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  // loadGallery = () => {
+  //   this.setState(
+  //     {
+  //       page: 1,
+  //     },
+  //     () => {
+  //       this.componentDidMount().then((response: any) => {
+  //         this.setState({
+  //           gallery: response.hits,
+  //           isLoading: false,
+  //           totalImages: response.total,
+  //         });
+  //       });
+  //     }
+  //   );
+  // };
+
+  // loadMoreGallery = () => {
+  //   this.setState({ isLoading: true });
+  //   this.componentDidMount().then((response: any) => {
+  //     this.setState((prevState) => ({
+  //       gallery: [...prevState.gallery, ...response.hits],
+  //       isLoading: false,
+  //       totalImages: response.total,
+  //     }));
+  //   });
+  // };
+
+  // componentDidUpdate(
+  //   prevProps: any,
+  //   prevState: { query: string; page: number }
+  // ) {
+  //   if (this.state.query !== prevState.query) {
+  //     this.loadGallery();
+  //   }
+  //   if (this.state.page !== prevState.page) {
+  //     this.loadMoreGallery();
+  //   }
+  // }
+
+  // handleLoadMore = () => {
+  //   this.setState((prevState) => {
+  //     return { page: prevState.page + 1 };
+  //   });
+  // };
+
+  // submitQuery = (query: string) => {
+  //   this.setState({ query: query, isLoading: true });
+  //   this.loadGallery();
+  // };
+
+  getGallery = async () => {
     try {
-      const response: AxiosResponse<{ hits: Array<object>; total: number }> =
-        await axios.get(
-          `?q=${this.state.query}&page=${this.state.page}&key=${this.state.API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
-        );
+      const response = await axios.get(
+        `?q=${this.state.query}&page=${this.state.page}&key=${this.state.API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+      );
       return response.data;
     } catch (error) {
       console.log(error);
     }
-  }
-
-  loadGallery = () => {
-    this.setState(
-      {
-        page: 1,
-      },
-      () => {
-        this.componentDidMount().then((response: any) => {
-          this.setState({
-            gallery: response.hits,
-            isLoading: false,
-            totalImages: response.total,
-          });
-        });
-      }
-    );
   };
 
-  loadMoreGallery = () => {
+  loadGallery = async () => {
     this.setState({ isLoading: true });
-    this.componentDidMount().then((response: any) => {
-      this.setState((prevState) => ({
-        gallery: [...prevState.gallery, ...response.hits],
-        isLoading: false,
-        totalImages: response.total,
-      }));
+    const data = await this.getGallery();
+
+    this.setState({
+      gallery: data.hits,
+      isLoading: false,
+      totalImages: data.total,
     });
   };
 
-  handleLoadMore = () => {
-    this.setState((prevState) => {
-      return { page: prevState.page + 1 };
-    });
+  loadMoreGallery = async () => {
+    this.setState({ isLoading: true });
+    const data = await this.getGallery();
+
+    this.setState((prevState) => ({
+      gallery: [...prevState.gallery, ...data.hits],
+      isLoading: false,
+      totalImages: data.total,
+    }));
   };
-  componentDidUpdate(
-    prevProps: any,
-    prevState: { query: string; page: number }
-  ) {
-    if (this.state.query !== prevState.query) {
+
+  componentDidUpdate(prevProps: any, prevState: AppState) {
+    if (prevState.query !== this.state.query) {
+      this.setState({ page: 1 });
       this.loadGallery();
     }
     if (this.state.page !== prevState.page) {
       this.loadMoreGallery();
     }
   }
+
+  handleLoadMore = () => {
+    this.setState((prevState) => {
+      return { page: prevState.page + 1 };
+    });
+  };
 
   submitQuery = (query: string) => {
     this.setState({ query: query, isLoading: true });
