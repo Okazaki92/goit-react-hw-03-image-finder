@@ -60,27 +60,6 @@ export class App extends Component<{}, AppState> {
       this.loadMoreGallery();
       this.setState({ page: this.state.page });
     }
-    // if (prevState.query !== this.state.query) {
-    //   const { query, page } = this.state;
-    //   const data = await getGallery(query, page);
-    //   this.setState({
-    //     gallery: [...data.hits],
-    //     isLoading: false,
-    //     totalImages: data.total,
-    //   });
-    // }
-    // if (
-    //   prevState.page !== this.state.page &&
-    //   prevState.query === this.state.query
-    // ) {
-    //   const { query, page } = this.state;
-    //   const data = await getGallery(query, page);
-    //   this.setState({
-    //     gallery: [...prevState.gallery, ...data.hits],
-    //     isLoading: false,
-    //     totalImages: data.total,
-    //   });
-    // }
   }
 
   handleLoadMore = () => {
