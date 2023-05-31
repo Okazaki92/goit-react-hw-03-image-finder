@@ -26,8 +26,8 @@ export class App extends Component<{}, AppState> {
 
   loadGallery = async () => {
     this.setState({ isLoading: true });
-    const { query, page } = this.state;
-    const data = await getGallery(query);
+    let { query, page } = this.state;
+    const data = await getGallery(query, (page = 1));
     this.setState({
       page,
       gallery: data.hits,
@@ -49,26 +49,38 @@ export class App extends Component<{}, AppState> {
   };
 
   async componentDidUpdate(prevProps: any, prevState: AppState) {
-    // if (prevState.query !== this.state.query) {
-    //   await this.loadGallery();
-    // }
-
-    // if (this.state.page !== prevState.page) {
-    //   this.loadMoreGallery();
-    //   this.setState({ page: this.state.page });
-    // }
-    if (
-      prevState.page !== this.state.page ||
-      prevState.query !== this.state.query
-    ) {
-      const { query, page } = this.state;
-      const data = await getGallery(query, page);
-      this.setState({
-        gallery: [...prevState.gallery, ...data.hits],
-        isLoading: false,
-        totalImages: data.total,
-      });
+    if (prevState.query !== this.state.query) {
+      await this.loadGallery();
     }
+
+    if (
+      this.state.page !== prevState.page &&
+      prevState.query === this.state.query
+    ) {
+      this.loadMoreGallery();
+      this.setState({ page: this.state.page });
+    }
+    // if (prevState.query !== this.state.query) {
+    //   const { query, page } = this.state;
+    //   const data = await getGallery(query, page);
+    //   this.setState({
+    //     gallery: [...data.hits],
+    //     isLoading: false,
+    //     totalImages: data.total,
+    //   });
+    // }
+    // if (
+    //   prevState.page !== this.state.page &&
+    //   prevState.query === this.state.query
+    // ) {
+    //   const { query, page } = this.state;
+    //   const data = await getGallery(query, page);
+    //   this.setState({
+    //     gallery: [...prevState.gallery, ...data.hits],
+    //     isLoading: false,
+    //     totalImages: data.total,
+    //   });
+    // }
   }
 
   handleLoadMore = () => {
@@ -77,9 +89,11 @@ export class App extends Component<{}, AppState> {
     }));
   };
 
-  submitQuery = async (query: string) => {
-    // this.loadGallery();
-    this.setState({ query, isLoading: true, page: 1, gallery: [] });
+  submitQuery = (query: string) => {
+    if (query === "") {
+      this.loadGallery();
+    }
+    this.setState({ query, isLoading: true, page: 1 });
   };
 
   render() {
